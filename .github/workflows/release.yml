@@ -20,7 +20,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, ubuntu-24.04-arm, windows-latest, macos-latest]
-        cangjie_version: [1.0.5]
+        cangjie_version: [1.0.5, 1.1.0]
         include:
           - os: ubuntu-latest
             os_dir: linux_x86_64_cjnative
@@ -34,6 +34,10 @@ jobs:
           - os: macos-latest
             os_dir: darwin_aarch64_cjnative
             artifact_suffix: mac-aarch64
+          - cangjie_version: 1.0.5
+            cangjie_channel: lts
+          - cangjie_version: 1.1.0
+            cangjie_channel: sts
 
     steps:
       - name: Checkout
@@ -59,7 +63,7 @@ jobs:
       - name: Setup Cangjie
         uses: Zxilly/setup-cangjie@v2
         with:
-          channel: lts
+          channel: ${{ matrix.cangjie_channel }}
           version: ${{ matrix.cangjie_version }}
           archive-path: ./cangjie-archive
 
